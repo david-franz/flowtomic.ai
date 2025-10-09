@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # Environment variables
 .env*
+
+# TypeScript build info
+*.tsbuildinfo

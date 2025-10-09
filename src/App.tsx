@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { Layers, Workflow, Cpu, Boxes, Code, Package, Share2, GitBranch, Download, Command, ArrowUpRight, Activity } from "lucide-react";
+import { Layers, Workflow, Cpu, Boxes, Code, Share2, GitBranch, Download, Command, ArrowUpRight, Activity } from "lucide-react";
+
+type FlowOffering = {
+  name: string;
+  tagline: string;
+  icon: ReactNode;
+  chips: string[];
+  link: string;
+};
 
 export default function FlowtomicBrandUniverseV2() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key.toLowerCase() === 'd') setDark((v) => !v);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() === 'd') setDark((v) => !v);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const products = [
+  const products: FlowOffering[] = [
     {
       name: "Flowtool.dev",
       tagline: "Builder and deployment tool for creating robust agentic AI workflows — currently in development.",
@@ -23,19 +32,19 @@ export default function FlowtomicBrandUniverseV2() {
     }
   ];
 
-  const released = [
+  const released: FlowOffering[] = [
     { name: "Flowlang.dev", tagline: "A robust JVM-based, sandboxed-by-default language with a functional style and declarative task orchestration. Compiles to the portable .flow format, enabling safe, composable, and reproducible logic across the Flowtomic ecosystem.", icon: <Code className="w-5 h-5"/>, chips: ["DSL", ".flow", "Compiler"], link: "https://flowlang.dev" },
     { name: "Flowgraph.dev", tagline: "Visual graph builder and rendering library for constructing, editing, and visualizing intelligent flow structures in real time.", icon: <Workflow className="w-5 h-5"/>, chips: ["Graph", "Nodes", "Runtime"], link: "https://flowgraph.dev" },
     { name: "Flowform.dev", tagline: "Visual form builder and lightweight library that transforms schemas into structured, validated, and dynamic form interfaces.", icon: <Boxes className="w-5 h-5"/>, chips: ["Schemas", "Validation", "UI"], link: "https://flowform.dev" }
   ];
 
-  const inDevelopment = [
+  const inDevelopment: FlowOffering[] = [
     { name: "Flowedit.dev", tagline: "Editor for managing and debugging .flow projects. Combines text-based development with interactive graph views.", icon: <Command className="w-5 h-5"/>, chips: ["IDE", "Debug", "Visual Edit"], link: "https://flowedit.dev" },
     { name: "Flowback.dev", tagline: "Backend SDK offering queues, workers, and event handlers to power flow-native backend systems.", icon: <Layers className="w-5 h-5"/>, chips: ["SDK", "Workers", "Queues"], link: "https://flowback.dev" },
     { name: "Flowdeploy.dev", tagline: "Deployment toolkit for packaging, testing, and deploying flows to any environment, local or cloud.", icon: <Download className="w-5 h-5"/>, chips: ["CI/CD", "Cloud", "Packages"], link: "https://flowdeploy.dev" }
   ];
 
-  const futureRoadmap = [
+  const futureRoadmap: FlowOffering[] = [
     { name: "Flowsync.dev", tagline: "Data synchronization framework for maintaining consistent state across clients, services, and agents.", icon: <GitBranch className="w-5 h-5"/>, chips: ["Sync", "Events", "CRDT"], link: "https://flowsync.dev" },
     { name: "Flowshare.dev", tagline: "Platform for sharing, versioning, and collaborating on flow assets and models.", icon: <Share2 className="w-5 h-5"/>, chips: ["Private/Public", "Teams", "Versioning"], link: "https://flowshare.dev" },
     { name: "Flowmonitor.dev", tagline: "Monitoring and observability suite for tracing, metrics, and cost tracking in production flows.", icon: <Activity className="w-5 h-5"/>, chips: ["Tracing", "Metrics", "Alerts"], link: "https://flowmonitor.dev" }
@@ -47,21 +56,34 @@ export default function FlowtomicBrandUniverseV2() {
     future: dark ? 'border-zinc-700 bg-zinc-900/60' : 'border-zinc-200 bg-zinc-50'
   };
 
+  const productGridLayout =
+    products.length === 1
+      ? 'grid w-full grid-cols-1 gap-6 max-w-xl lg:max-w-2xl'
+      : products.length === 2
+        ? 'grid w-full grid-cols-1 sm:grid-cols-2 gap-6'
+        : 'grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+
   return (
-    <div className={`min-h-screen w-full bg-gradient-to-b ${dark ? 'from-zinc-950 via-black to-zinc-950 text-zinc-50' : 'from-sky-50 via-white to-fuchsia-50 text-zinc-900'}`}>
-      <header className="relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" aria-hidden>
-          <div className={`${dark ? 'opacity-20' : 'opacity-60'} absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-tr from-cyan-200 to-fuchsia-200 blur-3xl`}/>
-          <div className={`${dark ? 'opacity-20' : 'opacity-60'} absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-gradient-to-tr from-violet-200 to-emerald-200 blur-3xl`}/>
-        </div>
+    <div className={`relative min-h-screen w-full overflow-hidden bg-gradient-to-b ${dark ? 'from-zinc-950 via-black to-zinc-950 text-zinc-50' : 'from-sky-50 via-white to-fuchsia-50 text-zinc-900'}`}>
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+        <div className={`${dark ? 'opacity-20' : 'opacity-70'} absolute -top-32 -left-32 h-96 w-96 rounded-full bg-gradient-to-br from-sky-200 via-cyan-200 to-emerald-200 blur-3xl`} />
+        <div className={`${dark ? 'opacity-15' : 'opacity-50'} absolute top-1/3 right-[-8rem] h-80 w-80 rounded-full bg-gradient-to-bl from-fuchsia-200 via-violet-200 to-sky-100 blur-[120px]`} />
+        <div className={`${dark ? 'opacity-15' : 'opacity-45'} absolute bottom-[-12rem] left-[18%] h-96 w-96 rounded-full bg-gradient-to-tr from-emerald-200 via-teal-200 to-transparent blur-[140px]`} />
+        <div className={`${dark ? 'opacity-20' : 'opacity-60'} absolute top-12 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-gradient-to-br from-fuchsia-200 via-sky-200 to-emerald-100 blur-2xl`} />
+        <div className={`${dark ? 'opacity-10' : 'opacity-40'} absolute bottom-28 right-1/4 h-56 w-56 rounded-full bg-gradient-to-br from-sky-200 via-emerald-100 to-transparent blur-[150px]`} />
+      </div>
+      <header className="relative">
         <div className="absolute right-6 top-6 z-10">
           <button onClick={()=>setDark(!dark)} className={`rounded-full border px-3 py-1.5 text-sm ${dark ? 'border-zinc-700 bg-zinc-900 text-zinc-100 hover:bg-zinc-800' : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50'} transition`}>
             {dark ? 'Light mode (D)' : 'Dark mode (D)'}
           </button>
         </div>
         <div className="mx-auto max-w-7xl px-6 pt-20 pb-16">
-          <motion.h1 initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{duration:0.6}} className="text-4xl md:text-6xl font-extrabold tracking-tight">
-            Flowtomic
+          <motion.h1 initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{duration:0.6}} className="flex items-center gap-3 text-4xl md:text-6xl font-extrabold tracking-tight">
+            <span className={`inline-flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl border shadow-sm ${dark ? 'border-zinc-700 bg-zinc-900/70' : 'border-zinc-200 bg-white/80'}`}>
+              <img src="/logo.ico" alt="Flowtomic logo" className="h-8 w-8 md:h-12 md:w-12 object-contain" />
+            </span>
+            <span>Flowtomic</span>
           </motion.h1>
           <motion.p initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.1,duration:0.6}} className={`mt-4 max-w-2xl text-lg md:text-xl ${dark ? 'text-zinc-300' : 'text-zinc-700'}`}>
             Flowtomic focuses on building and deploying robust agentic AI workflows. Every part of the ecosystem converges on the <span className="font-mono">.flow</span> format — a portable, composable, and declarative standard for defining tasks, logic, and interactions across languages, runtimes, and environments.
@@ -71,7 +93,7 @@ export default function FlowtomicBrandUniverseV2() {
 
       <section className="mx-auto max-w-7xl px-6 py-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-4">Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className={productGridLayout}>
           {products.map((p, i) => (
             <ProductCard key={p.name} p={p} dark={dark} i={i} />
           ))}
@@ -96,7 +118,13 @@ export default function FlowtomicBrandUniverseV2() {
   );
 }
 
-function ProductCard({ p, dark, i }) {
+type CardProps = {
+  p: FlowOffering;
+  dark: boolean;
+  i: number;
+};
+
+function ProductCard({ p, dark, i }: CardProps) {
   return (
     <motion.a
       key={p.name}
@@ -126,12 +154,28 @@ function ProductCard({ p, dark, i }) {
   );
 }
 
-function ToolSection({ title, data, color, dark }) {
+type ToolSectionProps = {
+  title: string;
+  data: FlowOffering[];
+  color: string;
+  dark: boolean;
+};
+
+function ToolSection({ title, data, color, dark }: ToolSectionProps) {
+  const gridLayout =
+    data.length >= 4
+      ? 'grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+      : data.length === 3
+        ? 'grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
+        : data.length === 2
+          ? 'grid w-full grid-cols-1 sm:grid-cols-2 gap-6'
+          : 'grid w-full grid-cols-1 gap-6 max-w-xl mx-auto';
+
   return (
     <div>
       <h3 className="text-xl font-semibold mb-3">{title}</h3>
       <div className={`rounded-2xl border p-4 ${color}`}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className={gridLayout}>
           {data.map((p, i) => (
             <ToolCard key={p.name} p={p} dark={dark} i={i} />
           ))}
@@ -141,7 +185,7 @@ function ToolSection({ title, data, color, dark }) {
   );
 }
 
-function ToolCard({ p, dark, i }) {
+function ToolCard({ p, dark, i }: CardProps) {
   return (
     <motion.a
       href={p.link}
