@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { Layers, Workflow, Cpu, Boxes, Code, Share2, GitBranch, Download, Command, ArrowUpRight, Activity } from "lucide-react";
+import { Layers, Workflow, Cpu, Boxes, Code, Share2, GitBranch, Download, Command, ArrowUpRight, Activity, Globe, BookOpen } from "lucide-react";
 
 type FlowOffering = {
   name: string;
@@ -22,23 +22,18 @@ export default function FlowtomicBrandUniverseV2() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const products: FlowOffering[] = [
-    {
-      name: "Flowtool.dev",
-      tagline: "Builder and deployment tool for creating robust agentic AI workflows — currently in development.",
-      icon: <Cpu className="w-6 h-6"/>,
-      chips: ["Builder", ".flow native", "Visual + Code"],
-      link: "https://flowtool.dev"
-    }
-  ];
+  const products: FlowOffering[] = [];
 
   const released: FlowOffering[] = [
     { name: "Flowlang.dev", tagline: "A robust JVM-based, sandboxed-by-default language with a functional style and declarative task orchestration. Compiles to the portable .flow format, enabling safe, composable, and reproducible logic across the Flowtomic ecosystem.", icon: <Code className="w-5 h-5"/>, chips: ["DSL", ".flow", "Compiler"], link: "https://flowlang.dev" },
+    { name: "Flowport.dev", tagline: "Gateway to leading LLM models with unified APIs, adaptive routing, and evaluation tooling for production-grade agents.", icon: <Globe className="w-5 h-5"/>, chips: ["LLM Gateway", "Routing", "Evaluation"], link: "https://flowport.dev" },
+    { name: "Flowknow.dev", tagline: "Create reusable knowledge bases and automatically build optimized RAG datasets, indexes, and refresh pipelines.", icon: <BookOpen className="w-5 h-5"/>, chips: ["Knowledge", "RAG", "Automation"], link: "https://flowknow.dev" },
     { name: "Flowgraph.dev", tagline: "Visual graph builder and rendering library for constructing, editing, and visualizing intelligent flow structures in real time.", icon: <Workflow className="w-5 h-5"/>, chips: ["Graph", "Nodes", "Runtime"], link: "https://flowgraph.dev" },
     { name: "Flowform.dev", tagline: "Visual form builder and lightweight library that transforms schemas into structured, validated, and dynamic form interfaces.", icon: <Boxes className="w-5 h-5"/>, chips: ["Schemas", "Validation", "UI"], link: "https://flowform.dev" }
   ];
 
   const inDevelopment: FlowOffering[] = [
+    { name: "Flowtool.dev", tagline: "Builder and deployment tool for creating robust agentic AI workflows — currently in development.", icon: <Cpu className="w-5 h-5"/>, chips: ["Builder", ".flow native", "Visual + Code"], link: "https://flowtool.dev" },
     { name: "Flowedit.dev", tagline: "Editor for managing and debugging .flow projects. Combines text-based development with interactive graph views.", icon: <Command className="w-5 h-5"/>, chips: ["IDE", "Debug", "Visual Edit"], link: "https://flowedit.dev" },
     { name: "Flowback.dev", tagline: "Backend SDK offering queues, workers, and event handlers to power flow-native backend systems.", icon: <Layers className="w-5 h-5"/>, chips: ["SDK", "Workers", "Queues"], link: "https://flowback.dev" },
     { name: "Flowdeploy.dev", tagline: "Deployment toolkit for packaging, testing, and deploying flows to any environment, local or cloud.", icon: <Download className="w-5 h-5"/>, chips: ["CI/CD", "Cloud", "Packages"], link: "https://flowdeploy.dev" }
@@ -91,14 +86,16 @@ export default function FlowtomicBrandUniverseV2() {
         </div>
       </header>
 
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">Products</h2>
-        <div className={productGridLayout}>
-          {products.map((p, i) => (
-            <ProductCard key={p.name} p={p} dark={dark} i={i} />
-          ))}
-        </div>
-      </section>
+      {products.length > 0 && (
+        <section className="mx-auto max-w-7xl px-6 py-10">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Products</h2>
+          <div className={productGridLayout}>
+            {products.map((p) => (
+              <ProductCard key={p.name} p={p} dark={dark} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section id="devtools" className="mx-auto max-w-7xl px-6 py-10 space-y-10">
         <div>
@@ -121,18 +118,13 @@ export default function FlowtomicBrandUniverseV2() {
 type CardProps = {
   p: FlowOffering;
   dark: boolean;
-  i: number;
 };
 
-function ProductCard({ p, dark, i }: CardProps) {
+function ProductCard({ p, dark }: CardProps) {
   return (
-    <motion.a
+    <a
       key={p.name}
       href={p.link}
-      initial={{opacity:0, y:8}}
-      whileInView={{opacity:1, y:0}}
-      viewport={{ once: true }}
-      transition={{duration:0.4, delay: i * 0.05}}
       className={`group flex flex-col justify-between rounded-2xl border p-5 shadow-sm hover:shadow-md transition h-full ${dark ? 'border-zinc-800 bg-zinc-900 hover:border-zinc-700' : 'border-zinc-200 bg-white hover:border-zinc-300'}`}
     >
       <div>
@@ -150,7 +142,7 @@ function ProductCard({ p, dark, i }: CardProps) {
           <span key={c} className={`rounded-full border px-2.5 py-1 text-xs ${dark ? 'border-zinc-700 bg-zinc-800 text-zinc-300' : 'border-zinc-200 bg-gradient-to-br from-zinc-50 to-white text-zinc-600'}`}>{c}</span>
         ))}
       </div>
-    </motion.a>
+    </a>
   );
 }
 
@@ -176,8 +168,8 @@ function ToolSection({ title, data, color, dark }: ToolSectionProps) {
       <h3 className="text-xl font-semibold mb-3">{title}</h3>
       <div className={`rounded-2xl border p-4 ${color}`}>
         <div className={gridLayout}>
-          {data.map((p, i) => (
-            <ToolCard key={p.name} p={p} dark={dark} i={i} />
+          {data.map((p) => (
+            <ToolCard key={p.name} p={p} dark={dark} />
           ))}
         </div>
       </div>
@@ -185,14 +177,10 @@ function ToolSection({ title, data, color, dark }: ToolSectionProps) {
   );
 }
 
-function ToolCard({ p, dark, i }: CardProps) {
+function ToolCard({ p, dark }: CardProps) {
   return (
-    <motion.a
+    <a
       href={p.link}
-      initial={{opacity:0, y:8}}
-      whileInView={{opacity:1,y:0}}
-      viewport={{ once: true }}
-      transition={{duration:0.4, delay: i * 0.03}}
       className={`group flex flex-col justify-between rounded-2xl border p-5 shadow-sm hover:shadow-md transition h-full ${dark ? 'border-zinc-800 bg-zinc-900 hover:border-zinc-700' : 'border-zinc-200 bg-white hover:border-zinc-300'}`}
     >
       <div>
@@ -210,6 +198,6 @@ function ToolCard({ p, dark, i }: CardProps) {
           <span key={c} className={`rounded-full border px-2.5 py-1 text-xs ${dark ? 'border-zinc-700 bg-zinc-800 text-zinc-300' : 'border-zinc-200 bg-gradient-to-br from-zinc-50 to-white text-zinc-600'}`}>{c}</span>
         ))}
       </div>
-    </motion.a>
+    </a>
   );
 }
